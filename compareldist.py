@@ -62,22 +62,25 @@ for vartype in variables:
         for k in range(0,len(a)):
             val_of_bins[k], edges_of_bins[k], patches[k] =ax[0].hist(outputs[k][var], bins = Bins[var], histtype='step', alpha=0.5, label=labels[k])
         
-        pltratio=[np.true_divide(val_of_bins[i+2],val_of_bins[i],where=(val_of_bins[i] != 0)) for i in range(0,2)]
-        pltratio.append(np.true_divide(val_of_bins[1],val_of_bins[0],where=(val_of_bins[0] != 0)))
+        pltratio=[np.abs(np.true_divide(val_of_bins[i+2],val_of_bins[i],where=(val_of_bins[i] != 0))) for i in range(0,2)]
+        pltratio.append(np.abs(np.true_divide(val_of_bins[1],val_of_bins[0],where=(val_of_bins[0] != 0))))
         bincenter =[(0.5 * (edges_of_bins[i][1:] + edges_of_bins[i][:-1])) for i in range(0,len(a))]
 
         ax[0].legend(loc='best',fontsize=7,framealpha=0.2)
         ax[0].set_xlabel(var, size=7)
         ax[0].set_ylabel("Distribution", size=7)
+        ax[0].set_yscale('log')
         ax[0].grid(True)
        
         for k in range(0,2):
             ax[k+1].errorbar(bincenter[k], pltratio[k], yerr=None, color='r', fmt='.',label=ratio_labels[k])
             ax[k+1].legend(loc='best',fontsize=7,framealpha=0.2)
+            ax[k+1].set_yscale('log')
             ax[k+1].grid(True)
         
         ax[3].errorbar(bincenter[1], pltratio[2], yerr=None, color='r', fmt='.',label=ratio_labels[2])
         ax[3].legend(loc='best',fontsize=7,framealpha=0.2)
+        ax[3].set_yscale('log')
         ax[3].grid(True)
 
         plname=str(var)+'_light.png'
