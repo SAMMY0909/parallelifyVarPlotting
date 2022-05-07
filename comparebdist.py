@@ -60,7 +60,7 @@ for vartype in variables:
                         ] 
         
         for k in range(0,len(a)):
-            val_of_bins[k], edges_of_bins[k], patches[k] =ax[0].hist(outputs[var][k], color = ['r'], bins = Bins[var], histtype='step', alpha=0.5, label=labels[k])
+            val_of_bins[k], edges_of_bins[k], patches[k] =ax[0].hist(outputs[k][var], bins = Bins[var], histtype='step', alpha=0.5, label=labels[k])
         
         pltratio=[np.true_divide(val_of_bins[i+2],val_of_bins[i],where=(val_of_bins[i] != 0)) for i in range(0,2)]
         pltratio.append(np.true_divide(val_of_bins[1],val_of_bins[0],where=(val_of_bins[0] != 0)))
@@ -72,16 +72,15 @@ for vartype in variables:
         ax[0].grid(True)
        
         for k in range(0,2):
-            ax[k+1].errorbar(bincenter[k], pltratio[k], yerr=None,color='r', fmt='k.',label=ratio_labels[k])
+            ax[k+1].errorbar(bincenter[k], pltratio[k], yerr=None, color='r', fmt='.',label=ratio_labels[k])
             ax[k+1].legend(loc='best',fontsize=7,framealpha=0.2)
             ax[k+1].grid(True)
         
-        ax[3].errorbar(bincenter[1], pltratio[2], yerr=None,color='r', fmt='k.',label=ratio_labels[2])
+        ax[3].errorbar(bincenter[1], pltratio[2], yerr=None, color='r', fmt='.',label=ratio_labels[2])
         ax[3].legend(loc='best',fontsize=7,framealpha=0.2)
         ax[3].grid(True)
 
         plname=str(var)+'_bottom.png'
-        #plt.subplots_adjust(bottom=.25, left=.25)
         fig.savefig(plname,bbox_inches="tight")
         plt.close()
         print("Savefig block done for "+var+".\n")
